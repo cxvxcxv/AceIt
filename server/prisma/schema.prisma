@@ -18,7 +18,7 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  username String
+  username String @unique
   password String
 
   quizzes Quiz[]
