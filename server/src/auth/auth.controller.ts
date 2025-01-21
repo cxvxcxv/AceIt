@@ -6,7 +6,6 @@ import {
   Req,
   Res,
   UnauthorizedException,
-  ValidationPipe,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { REFRESH_TOKEN } from 'src/constants/auth.constants';
@@ -19,7 +18,7 @@ export class AuthController {
 
   @Post('register')
   async register(
-    @Body(ValidationPipe) authUserDto: AuthUserDto,
+    @Body() authUserDto: AuthUserDto,
     @Res({ passthrough: true }) res: Response,
   ) {
     const { refreshToken, ...response } =
@@ -33,7 +32,7 @@ export class AuthController {
   @HttpCode(200)
   @Post('login')
   async login(
-    @Body(ValidationPipe) authUserDto: AuthUserDto,
+    @Body() authUserDto: AuthUserDto,
     @Res({ passthrough: true }) res: Response,
   ) {
     const { refreshToken, ...response } =
@@ -68,7 +67,7 @@ export class AuthController {
 
   @HttpCode(200)
   @Post('logout')
-  async logout(@Res({ passthrough: true }) res: Response) {
+  logout(@Res({ passthrough: true }) res: Response) {
     this.authService.removeRefreshTokenFromResponse(res);
     return true;
   }

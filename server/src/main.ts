@@ -12,6 +12,7 @@ async function bootstrap() {
   app.getHttpAdapter().getInstance().disable('x-powered-by'); //removing from headers
 
   app.use(cookieParser()); //for working with cookies
+  //applies validation pipe in the whole application
   app.useGlobalPipes(new ValidationPipe({ whitelist: true })); //strips out props that do not exist in DTO
 
   app.enableCors({

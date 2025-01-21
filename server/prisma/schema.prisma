@@ -33,9 +33,10 @@ model Quiz {
 
   isPublic Boolean @default(false) @map("is_public")
 
+  title     String
   questions Question[]
 
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
 
   @@map("quizzes")
@@ -44,18 +45,12 @@ model Quiz {
 model Question {
   id String @id @default(uuid())
 
-  type          QuestionType
   content       String
-  correctAnswer String
+  correctAnswer String? @map("correct_answer")
+  options       Json
 
-  quiz   Quiz   @relation(fields: [quizId], references: [id])
+  quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
   quizId String @map("quiz_id")
 
   @@map("questions")
-}
-
-enum QuestionType {
-  singleChoice
-  multipleChoice
-  openEnded
 }

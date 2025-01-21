@@ -10,5 +10,6 @@ export class AuthUserDto {
   @MaxLength(USERNAME_MAX_LENGTH)
   username: string;
 
+  @IsString()
   password: string;
 }

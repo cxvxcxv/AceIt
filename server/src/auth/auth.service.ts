@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { verify } from 'argon2';
@@ -43,26 +39,27 @@ export class AuthService {
   }
 
   async login(authUserDto: AuthUserDto) {
-    const { password, ...user } = await this.userService.findOne(
-      authUserDto.username,
-    );
-    if (!user || !(await verify(password, authUserDto.password)))
+    const user = await this.userService.findOne(authUserDto.username, {
+      quizzes: { orderBy: { updatedAt: 'desc' } },
+    });
+    if (!user || !(await verify(user.password, authUserDto.password)))
       throw new UnauthorizedException('invalid credentials');
+
+    const { password, ...response } = user;
 
     const tokens = this.issueTokens({
       id: user.id,
       username: user.username,
     });
 
-    return { user, ...tokens };
+    return { response, ...tokens };
   }
 
   async refreshTokens(refreshToken: string) {
     const result: IJwtPayload = await this.jwtService.verifyAsync(refreshToken);
     if (!result) throw new UnauthorizedException('invalid refresh token');
 
-    const user = await this.userService.findOne(result.id);
-    if (!user) throw new NotFoundException('user not found');
+    const user = await this.userService.validateUserExistence(result.id);
 
     const tokens = this.issueTokens({ id: user.id, username: user.username });
     return tokens;
@@ -102,7 +99,7 @@ export class AuthService {
   }
 
   removeRefreshTokenFromResponse(res: Response) {
-    res.cookie(REFRESH_TOKEN, {
+    res.cookie(REFRESH_TOKEN, '', {
       httpOnly: true,
       domain: this.configService.get(DOMAIN),
       expires: new Date(0),
