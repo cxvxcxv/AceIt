@@ -1,12 +1,6 @@
-export enum EAuthMethod {
-  LOGIN = 'login',
-  REGISTER = 'register',
-}
-
-export enum EStorageKey {
+export enum ECookiesKeys {
   ACCESS_TOKEN = 'accessToken',
   REFRESH_TOKEN = 'refreshToken',
-  // USER = 'user'
 }
 
 export enum ERequestMethod {
