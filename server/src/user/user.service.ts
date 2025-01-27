@@ -13,9 +13,11 @@ export class UserService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async getProfile(userId: string) {
-    return await this.validateUserExistence(userId, {
+    const { password, ...user } = await this.validateUserExistence(userId, {
       quizzes: { orderBy: { updatedAt: 'desc' } },
     });
+
+    return user;
   }
 
   async create(authUserDto: AuthUserDto) {
