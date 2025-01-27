@@ -10,7 +10,7 @@ export interface ITokens {
   refreshToken: string;
 }
 
-export type TAuthForm = {
+export type TAuthInput = {
   username: string;
   password: string;
 };

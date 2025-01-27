@@ -1,13 +1,13 @@
 import { SERVER_ENDPOINTS } from '@/constants/server-endpoint.constants';
 
-import { EAuthMethod, TAuthForm, TAuthResponse } from '@/types/auth.types';
+import { EAuthMethod, TAuthInput, TAuthResponse } from '@/types/auth.types';
 
 import { axiosPublic } from '@/api/interceptors';
 
 import { removeTokenFromStorage } from './auth.helper';
 
 export const AuthService = {
-  async auth(authMethod: EAuthMethod, data: TAuthForm) {
+  async auth(authMethod: EAuthMethod, data: TAuthInput) {
     try {
       const response = await axiosPublic.post<TAuthResponse>(
         `${SERVER_ENDPOINTS.AUTH.BASE}/${authMethod}`,

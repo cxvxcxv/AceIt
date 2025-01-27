@@ -12,5 +12,9 @@ export const SERVER_ENDPOINTS = {
   },
   QUIZZES: {
     BASE: 'quizzes',
+    NEW: 'quizzes/new',
+  },
+  PROFILE: {
+    BASE: '/profile',
   },
 };
