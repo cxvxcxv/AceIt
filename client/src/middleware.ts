@@ -7,10 +7,11 @@ export async function middleware(request: NextRequest) {
   const { url, cookies } = request;
   const refreshToken = cookies.get(ECookiesKeys.REFRESH_TOKEN)?.value;
   const isAuthPage = url.includes(PAGES.AUTH);
+  const isHomePage = url.includes(PAGES.HOME);
 
   if (isAuthPage && refreshToken)
     return NextResponse.redirect(new URL('/', url));
-  if (isAuthPage) return NextResponse.next();
+  if (isAuthPage || isHomePage) return NextResponse.next();
   if (!refreshToken) return NextResponse.redirect(new URL(PAGES.AUTH, url));
 
   return NextResponse.next();
