@@ -1,5 +1,6 @@
 import { IsString, MaxLength, MinLength } from 'class-validator';
 import {
+  PASSWORD_MIN_LENGTH,
   USERNAME_MAX_LENGTH,
   USERNAME_MIN_LENGTH,
 } from 'src/constants/user.constants';
@@ -11,5 +12,6 @@ export class AuthUserDto {
   username: string;
 
   @IsString()
+  @MinLength(PASSWORD_MIN_LENGTH)
   password: string;
 }
