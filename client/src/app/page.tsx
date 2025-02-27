@@ -1,13 +1,13 @@
-import type { Metadata } from 'next';
+import { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
-import { Home } from './Home';
+import { NO_INDEX_PAGE } from '@/constants/seo.constants';
 
 export const metadata: Metadata = {
-  title: 'Home',
-  description:
-    'This is where everything begins. Try preparing for your exams right now!',
+  title: 'Redirecting...',
+  ...NO_INDEX_PAGE,
 };
 
-export default function Page() {
-  return <Home />;
+export default function HomePage() {
+  redirect('/quizzes');
 }

@@ -45,7 +45,7 @@ export const Auth = () => {
       toast.success(
         `${authMethod === 'login' ? 'Logged in successfully' : 'Registered successfully'}`,
       );
-      replace(PAGES.HOME);
+      replace(PAGES.QUIZZES);
     }
   };
 

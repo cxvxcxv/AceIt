@@ -10,6 +10,21 @@ export default {
   ],
   theme: {
     colors: COLORS,
+    extend: {
+      animation: {
+        'gradient-move': 'gradient 8s ease infinite',
+      },
+      keyframes: {
+        gradient: {
+          '0%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+          '100%': { backgroundPosition: '0% 50%' },
+        },
+      },
+      backgroundSize: {
+        '4x': '400% 400%',
+      },
+    },
   },
   plugins: [],
 } satisfies Config;

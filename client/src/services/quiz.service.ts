@@ -5,7 +5,16 @@ import { IQuiz, TQuizInput } from '@/types/quiz.types';
 import { axiosAuth } from '@/api/interceptors';
 
 export const QuizService = {
-  async get(quizId: string) {
+  async getAll() {
+    try {
+      const response = await axiosAuth.get(`${SERVER_ENDPOINTS.QUIZZES.BASE}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async getOne(quizId: string) {
     try {
       const response = await axiosAuth.get(
         `${SERVER_ENDPOINTS.QUIZZES.BASE}/${quizId}`,

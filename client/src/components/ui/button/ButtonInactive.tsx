@@ -15,7 +15,7 @@ export const ButtonInactive = ({
         'border border-primary px-6 py-3 text-primary transition-colors',
         className,
         {
-          'shadow-md shadow-primary hover:bg-primary hover:text-bg-white':
+          'hover:text-white shadow-md shadow-primary hover:bg-primary':
             !disabled,
         },
         {
