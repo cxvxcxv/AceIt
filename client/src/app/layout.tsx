@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
@@ -7,7 +8,10 @@ import { SITE_NAME } from '@/constants/seo.constants';
 import { Providers } from './Providers';
 import './globals.css';
 
-const poppins = Poppins({ subsets: ['latin'], weight: ['400', '500', '600'] });
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600'],
+});
 
 export const metadata: Metadata = {
   title: {
@@ -24,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={poppins.className}>
+      <body className={clsx(poppins.className, 'text-secondary')}>
         <Providers>
           {children}
           <Toaster position="top-center" toastOptions={{ duration: 1500 }} />

@@ -5,6 +5,8 @@ export enum EAuthMethod {
   REGISTER = 'register',
 }
 
+export type TAuthMethod = 'login' | 'register';
+
 export interface ITokens {
   accessToken: string;
   refreshToken: string;
