@@ -12,6 +12,12 @@ import { UpdateQuizDto } from './dto/update-quiz.dto';
 export class QuizService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async findAll(userId: string) {
+    return await this.prismaService.quiz.findMany({
+      where: { OR: [{ userId }, { isPublic: true }] },
+    });
+  }
+
   async findOne(userId: string, quizId: string) {
     const quiz = await this.validateQuizExistence(quizId, { questions: true });
 

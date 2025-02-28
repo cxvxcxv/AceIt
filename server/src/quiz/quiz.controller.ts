@@ -17,6 +17,12 @@ import { QuizService } from './quiz.service';
 export class QuizController {
   constructor(private readonly quizService: QuizService) {}
 
+  @Get()
+  @Protect()
+  async findAll(@CurrentUser('id') userId: string) {
+    return await this.quizService.findAll(userId);
+  }
+
   @Get(':quizId')
   @Protect()
   async findOne(
