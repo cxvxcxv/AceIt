@@ -2,13 +2,13 @@ import type { Metadata } from 'next';
 
 import { NO_INDEX_PAGE } from '@/constants/seo.constants';
 
-import { Quiz } from './Quiz';
+import { QuizSettings } from './Settings';
 
 export const metadata: Metadata = {
-  title: 'quiz',
+  title: 'Quiz Settings',
   ...NO_INDEX_PAGE,
 };
 
-export default function Page() {
-  return <Quiz />;
+export default function QuizSettingsPage() {
+  return <QuizSettings />;
 }

@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import { ButtonActive } from '@/components/ui/button/ButtonActive';
 import { Field } from '@/components/ui/field/Field';
 
+import { SERVER_ENDPOINTS } from '@/constants/server-endpoint.constants';
 import {
   PASSWORD_MIN_LENGTH,
   USERNAME_MAX_LENGTH,
@@ -19,8 +20,6 @@ import {
 import { TAuthInput, TAuthMethod } from '@/types/auth.types';
 
 import studentIcon from '@/assets/student.png';
-
-import { PAGES } from '@/config/urls.config';
 
 import { useAuthMutation } from '@/hooks/useAuthMutation';
 
@@ -36,17 +35,21 @@ export const Auth = () => {
     formState: { errors },
   } = useForm<TAuthInput>({ mode: 'onBlur' });
 
-  const { mutate, error, isSuccess } = useAuthMutation(authMethod);
   const { replace } = useRouter();
+
+  const onSuccess = () => {
+    toast.success(
+      authMethod === 'login'
+        ? 'Logged in successfully'
+        : 'Registered successfully',
+    );
+    replace(SERVER_ENDPOINTS.QUIZZES.BASE);
+  };
+
+  const { mutate, error } = useAuthMutation(authMethod, onSuccess);
 
   const onSubmit: SubmitHandler<TAuthInput> = data => {
     mutate(data);
-    if (isSuccess) {
-      toast.success(
-        `${authMethod === 'login' ? 'Logged in successfully' : 'Registered successfully'}`,
-      );
-      replace(PAGES.QUIZZES);
-    }
   };
 
   const changeAuthMethod = () => {
@@ -60,12 +63,13 @@ export const Auth = () => {
 
   return (
     <section className="flex justify-center">
-      <div className="flex h-screen w-full flex-col items-center justify-center gap-8 p-12">
+      <div className="flex h-screen w-full flex-col items-center justify-center gap-8 bg-white p-12">
         <h1 className="text-8xl">
           Ace<span className="text-primary">It</span>
         </h1>
         <h2>{authMethod === 'login' ? 'Welcome back!' : 'Welcome!'}</h2>
         <form
+          id="auth"
           className="flex w-full flex-col items-center"
           onSubmit={handleSubmit(onSubmit)}
         >

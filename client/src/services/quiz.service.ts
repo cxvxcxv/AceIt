@@ -7,7 +7,9 @@ import { axiosAuth } from '@/api/interceptors';
 export const QuizService = {
   async getAll() {
     try {
-      const response = await axiosAuth.get(`${SERVER_ENDPOINTS.QUIZZES.BASE}`);
+      const response = await axiosAuth.get<IQuiz[]>(
+        `${SERVER_ENDPOINTS.QUIZZES.BASE}`,
+      );
       return response.data;
     } catch (error) {
       throw error;
@@ -16,7 +18,7 @@ export const QuizService = {
 
   async getOne(quizId: string) {
     try {
-      const response = await axiosAuth.get(
+      const response = await axiosAuth.get<IQuiz>(
         `${SERVER_ENDPOINTS.QUIZZES.BASE}/${quizId}`,
       );
       return response.data;

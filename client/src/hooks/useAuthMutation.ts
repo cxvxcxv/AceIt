@@ -6,9 +6,13 @@ import { TAuthInput, TAuthMethod } from '@/types/auth.types';
 
 import { AuthService } from '@/services/auth/auth.service';
 
-export function useAuthMutation(authMethod: TAuthMethod) {
+export function useAuthMutation(
+  authMethod: TAuthMethod,
+  onSuccess: () => void,
+) {
   return useMutation({
     mutationKey: ['auth'],
     mutationFn: (data: TAuthInput) => AuthService.auth(authMethod, data),
+    onSuccess,
   });
 }

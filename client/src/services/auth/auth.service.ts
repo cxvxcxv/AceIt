@@ -4,7 +4,7 @@ import { TAuthInput, TAuthMethod, TAuthResponse } from '@/types/auth.types';
 
 import { axiosPublic } from '@/api/interceptors';
 
-import { removeTokenFromStorage } from './auth.helper';
+import { addTokenToStorage, removeTokenFromStorage } from './auth.helper';
 
 export const AuthService = {
   async auth(authMethod: TAuthMethod, data: TAuthInput) {
@@ -25,6 +25,10 @@ export const AuthService = {
       const response = await axiosPublic.post<TAuthResponse>(
         `${SERVER_ENDPOINTS.AUTH.LOGIN.REFRESH_TOKENS}`,
       );
+
+      if (response.data.accessToken)
+        addTokenToStorage(response.data.accessToken);
+
       return response.data;
     } catch (error) {
       throw error;
