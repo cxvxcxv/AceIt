@@ -10,5 +10,9 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <Quiz />;
+  return (
+    <section className="relative flex min-h-screen w-full animate-gradient-move items-center justify-center overflow-hidden bg-primary-gradient bg-4x p-8 focus-within:overflow-x-hidden">
+      <Quiz />;
+    </section>
+  );
 }

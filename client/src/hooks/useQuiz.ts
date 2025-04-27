@@ -9,4 +9,6 @@ export function useQuiz(quizId: string) {
     queryKey: ['quizId'],
     queryFn: () => QuizService.getOne(quizId),
   });
+
+  return { data, isLoading, isError };
 }

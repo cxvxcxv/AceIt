@@ -24,6 +24,10 @@ export default {
       backgroundSize: {
         '4x': '400% 400%',
       },
+      backgroundImage: {
+        'primary-gradient':
+          'linear-gradient(to bottom right, #D84B16, #C44614, #8A2F10)',
+      },
     },
   },
   plugins: [],

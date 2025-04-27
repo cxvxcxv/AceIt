@@ -8,7 +8,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import { ButtonActive } from '@/components/ui/button/ButtonActive';
-import { Field } from '@/components/ui/field/Field';
+import { Field } from '@/components/ui/input/Field';
 
 import { SERVER_ENDPOINTS } from '@/constants/server-endpoint.constants';
 import {

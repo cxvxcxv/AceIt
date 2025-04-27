@@ -6,13 +6,13 @@ export interface IQuestion {
   quizId: string;
 }
 
+export interface IQuestionOption {
+  optionText: string;
+  isCorrect: boolean;
+}
+
 export type TQuestionInput = {
   content: string;
   correctAnswer?: string;
-  options: TQUestionOption[];
-};
-
-type TQUestionOption = {
-  optionText: string;
-  isCorrect: boolean;
+  options: IQuestionOption[];
 };
