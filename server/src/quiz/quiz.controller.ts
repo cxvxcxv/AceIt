@@ -32,7 +32,7 @@ export class QuizController {
     return await this.quizService.findOne(userId, quizId);
   }
 
-  @Post('new')
+  @Post('')
   @Protect()
   async create(
     @Body() createQuizDto: CreateQuizDto,

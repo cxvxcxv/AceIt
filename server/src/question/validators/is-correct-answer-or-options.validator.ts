@@ -21,7 +21,7 @@ export function IsCorrectAnswerOrOptions(
             options?: QuestionOptionDto[];
           };
 
-          return !(object.correctAnswer && object.options.length);
+          return !(object.correctAnswer && object.options.length); //returns true if both are not provided
         },
         defaultMessage() {
           return 'correct answer and options cannot be provided at the same time';

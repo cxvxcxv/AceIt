@@ -6,6 +6,7 @@ import {
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { QuizService } from 'src/quiz/quiz.service';
+import { v4 as uuidv4 } from 'uuid';
 import { QuestionDto } from './dto/question.dto';
 
 @Injectable()
@@ -27,10 +28,15 @@ export class QuestionService {
     const quiz = await this.quizService.validateQuizExistence(quizId);
     if (quiz.userId !== userId) throw new ForbiddenException('no access');
 
+    const optionsWithIds = questionDto.options?.map((option) => ({
+      ...option,
+      id: uuidv4(),
+    }));
+
     const data: Prisma.QuestionCreateInput = {
       content: questionDto.content,
+      options: JSON.stringify(optionsWithIds) || null,
       quiz: { connect: { id: quizId } },
-      options: questionDto.options ? JSON.stringify(questionDto.options) : null,
     };
 
     const question = await this.prismaService.question.create({ data });

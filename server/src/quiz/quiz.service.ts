@@ -15,6 +15,15 @@ export class QuizService {
   async findAll(userId: string) {
     return await this.prismaService.quiz.findMany({
       where: { OR: [{ userId }, { isPublic: true }] },
+      select: {
+        id: true,
+        title: true,
+        isPublic: true,
+        updatedAt: true,
+        userId: true,
+        _count: { select: { questions: true } },
+      },
+      distinct: ['id'], //avoids repetition if isPublic and userId are found
     });
   }
 
@@ -30,6 +39,7 @@ export class QuizService {
     return await this.prismaService.quiz.create({
       data: {
         title: createQuizDto.title,
+        isPublic: createQuizDto.isPublic,
         user: { connect: { id: userId } },
       },
     });
