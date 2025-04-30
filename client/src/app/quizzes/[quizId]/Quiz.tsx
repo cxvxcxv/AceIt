@@ -11,21 +11,20 @@ import { TransparentGlass } from '@/components/ui/div/TransparentGlass';
 
 import { useQuiz } from '@/hooks/useQuiz';
 
+import { safeParseJson } from '@/utils/safeParseJson';
+
 export const Quiz = () => {
   const params = useParams();
   const quizId = params.quizId as string | undefined;
 
-  if (!quizId) return <Loader classname="text-white" />;
-
-  const { data: quiz, isLoading, isError } = useQuiz(quizId);
+  const { data: quiz, isLoading, isError } = useQuiz(quizId || '');
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [answers, setAnswers] = useState<Record<string, string | string[]>>({});
+  const totalQuestions = quiz?.questions.length || 0;
+  if (!quizId || isLoading) return <Loader />;
 
-  if (isLoading) return <Loader classname="text-white" />;
+  if (isError || !quiz) return <h1>Failed to load quiz.</h1>;
 
-  if (isError || !quiz)
-    return <h1 className="text-white">Failed to load quiz.</h1>;
-
-  const totalQuestions = quiz.questions.length;
   return (
     <section>
       {quiz.questions.map((question, index) => (
@@ -40,7 +39,7 @@ export const Quiz = () => {
             },
           )}
         >
-          <div className="w-full max-w-2xl">
+          <div className="w-full max-w-3xl p-8">
             <TransparentGlass>
               <div className="mb-2 flex justify-between">
                 <h3>Quiz Question</h3>
@@ -51,8 +50,11 @@ export const Quiz = () => {
               <h1>{question.content}</h1>
             </TransparentGlass>
             <div className="mt-12">
-              {question.options && (
-                <QuestionOptions options={question.options} />
+              {question.options?.length && (
+                <QuestionOptions
+                  questionId={question.id}
+                  options={safeParseJson(question.options) || []}
+                />
               )}
             </div>
             <div className="mt-12 flex justify-between">
