@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -43,10 +44,12 @@ export const Quiz = () => {
         const parsedAnswers = JSON.parse(storedAnswers);
         if (typeof parsedAnswers === 'object' && parsedAnswers !== null) {
           setAnswers(parsedAnswers);
+          console.log(parsedAnswers);
           toast.success('Loaded saved answers');
         }
       } catch (error) {
         console.error('Failed to parse stored answers:', error);
+        toast.error('Failed to load saved answers');
       }
     }
   }, []);
@@ -89,27 +92,41 @@ export const Quiz = () => {
                 />
               )}
             </div>
-            <div className="mt-12 flex justify-between">
-              <ButtonActive
-                onClick={() => setCurrentIndex(Math.max(0, currentIndex - 1))}
-                disabled={currentIndex === 0}
-              >
-                Previous
-              </ButtonActive>
-              <ButtonActive
-                onClick={() =>
-                  setCurrentIndex(
-                    Math.min(currentIndex + 1, totalQuestions - 1),
-                  )
-                }
-                disabled={currentIndex === totalQuestions - 1}
-              >
-                Next
-              </ButtonActive>
-            </div>
           </div>
         </div>
       ))}
+
+      <div className="absolute bottom-0 left-0 right-0 flex justify-center">
+        <div className="w-full max-w-3xl p-8">
+          <nav className="mt-12 flex items-center justify-between gap-8">
+            <ButtonActive
+              onClick={() => setCurrentIndex(Math.max(0, currentIndex - 1))}
+              disabled={currentIndex === 0}
+              className="w-full flex-1 select-none"
+            >
+              Previous
+            </ButtonActive>
+            <Link
+              href={`/quizzes/${quizId}/results`}
+              className={clsx('flex-1 text-center transition', {
+                invisible: currentIndex !== totalQuestions - 1,
+                'animate-pulse': currentIndex === totalQuestions - 1,
+              })}
+            >
+              Finish Quiz
+            </Link>
+            <ButtonActive
+              onClick={() =>
+                setCurrentIndex(Math.min(currentIndex + 1, totalQuestions - 1))
+              }
+              disabled={currentIndex === totalQuestions - 1}
+              className="w-full flex-1 select-none"
+            >
+              Next
+            </ButtonActive>
+          </nav>
+        </div>
+      </div>
     </section>
   );
 };
