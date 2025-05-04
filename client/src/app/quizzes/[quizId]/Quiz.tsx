@@ -2,12 +2,15 @@
 
 import clsx from 'clsx';
 import { useParams } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import { Loader } from '@/components/Loader';
 import { QuestionOptions } from '@/components/question/QuestionOptions';
 import { ButtonActive } from '@/components/ui/button/ButtonActive';
 import { TransparentGlass } from '@/components/ui/div/TransparentGlass';
+
+import { ANSWERS } from '@/constants/storage.constants';
 
 import { useQuiz } from '@/hooks/useQuiz';
 
@@ -19,8 +22,35 @@ export const Quiz = () => {
 
   const { data: quiz, isLoading, isError } = useQuiz(quizId || '');
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, string | string[]>>({});
   const totalQuestions = quiz?.questions.length || 0;
+  const [answers, setAnswers] = useState<Record<string, string[]>>({});
+
+  //updates the answers state and saves into localstorage
+  const handleChangeAnswer = (questionId: string, options: string[]) => {
+    const updatedAnswers = {
+      ...answers,
+      [questionId]: options,
+    };
+
+    setAnswers(updatedAnswers);
+    localStorage.setItem(ANSWERS, JSON.stringify(updatedAnswers));
+  };
+
+  useEffect(() => {
+    const storedAnswers = localStorage.getItem(ANSWERS);
+    if (storedAnswers) {
+      try {
+        const parsedAnswers = JSON.parse(storedAnswers);
+        if (typeof parsedAnswers === 'object' && parsedAnswers !== null) {
+          setAnswers(parsedAnswers);
+          toast.success('Loaded saved answers');
+        }
+      } catch (error) {
+        console.error('Failed to parse stored answers:', error);
+      }
+    }
+  }, []);
+
   if (!quizId || isLoading) return <Loader />;
 
   if (isError || !quiz) return <h1>Failed to load quiz.</h1>;
@@ -54,6 +84,8 @@ export const Quiz = () => {
                 <QuestionOptions
                   questionId={question.id}
                   options={safeParseJson(question.options) || []}
+                  onChangeAnswer={handleChangeAnswer}
+                  savedOptionIds={answers[question.id] || []}
                 />
               )}
             </div>
