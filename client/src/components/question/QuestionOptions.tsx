@@ -10,36 +10,37 @@ import Checkbox from '../ui/input/Checkbox';
 type TQuestionOptions = {
   questionId: string;
   options: IQuestionOption[];
-  savedOptionIds?: string[];
+  storedOptionIds?: string[];
   onChangeAnswer: (questionId: string, options: string[]) => void;
 };
 
 export const QuestionOptions = ({
   questionId,
   options,
-  savedOptionIds,
+  storedOptionIds,
   onChangeAnswer,
 }: TQuestionOptions) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>(
-    savedOptionIds || [],
+    storedOptionIds || [],
   );
 
   const isMultipleAnswer =
     options.filter(option => option.isCorrect).length > 1;
 
   const handleSelectOption = (optionId: string) => {
-    setSelectedOptions(prev => {
-      if (prev.includes(optionId)) {
-        return prev.filter(id => id !== optionId);
-      } else {
-        return isMultipleAnswer ? [...prev, optionId] : [optionId];
-      }
-    });
+    const updated = selectedOptions.includes(optionId)
+      ? selectedOptions.filter(id => id !== optionId)
+      : isMultipleAnswer
+        ? [...selectedOptions, optionId]
+        : [optionId];
+
+    setSelectedOptions(updated);
+    onChangeAnswer(questionId, updated);
   };
 
   useEffect(() => {
-    onChangeAnswer(questionId, selectedOptions);
-  }, [selectedOptions, questionId]);
+    setSelectedOptions(storedOptionIds || []);
+  }, [storedOptionIds]);
 
   if (!options.length)
     return <h1 className="text-white">No valid options available.</h1>;
