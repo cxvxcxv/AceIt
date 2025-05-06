@@ -10,5 +10,9 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <Results />;
+  return (
+    <section className="flex min-h-screen w-full animate-gradient-move items-center justify-center overflow-x-hidden bg-primary-gradient bg-4x p-4 text-white focus-within:overflow-x-hidden">
+      <Results />
+    </section>
+  );
 }

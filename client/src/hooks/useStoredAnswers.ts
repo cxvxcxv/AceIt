@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { ANSWERS } from '@/constants/storage.constants';
+import { IAnswers } from '@/types/storage.types';
 
 import { safeParseJson } from '@/utils/safeParseJson';
 
-export function useStoredAnswers() {
-  const [answers, setAnswers] = useState<Record<string, string[]>>({});
-  const toastShownRef = useRef(false);
+export function useStoredAnswers(quizId?: string, showToast: boolean = false) {
+  const [answers, setAnswers] = useState<IAnswers>({});
+  const toastShownRef = useRef(showToast);
 
   useEffect(() => {
-    const storedAnswers = localStorage.getItem(ANSWERS);
+    if (!quizId) return;
+    const storedAnswers = localStorage.getItem(quizId);
     const parsedAnswers = storedAnswers
-      ? safeParseJson<Record<string, string[]>>(storedAnswers)
+      ? safeParseJson<IAnswers>(storedAnswers)
       : null;
 
     if (parsedAnswers && typeof parsedAnswers === 'object') {
@@ -25,12 +26,13 @@ export function useStoredAnswers() {
         toastShownRef.current = true;
       }
     }
-  }, []);
+  }, [quizId]);
 
   const updateAnswers = (questionId: string, optionIds: string[]) => {
+    if (!quizId) return;
     setAnswers(prev => {
       const updated = { ...prev, [questionId]: optionIds };
-      localStorage.setItem(ANSWERS, JSON.stringify(updated));
+      localStorage.setItem(quizId, JSON.stringify(updated));
       return updated;
     });
   };

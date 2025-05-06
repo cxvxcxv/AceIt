@@ -2,8 +2,6 @@ import { TransparentGlass } from '@/components/ui/div/TransparentGlass';
 
 import { IQuestion } from '@/types/question.types';
 
-import { safeParseJson } from '@/utils/safeParseJson';
-
 import { QuestionOptions } from './QuestionOptions';
 
 type TQuizQuestionProps = {
@@ -46,7 +44,7 @@ export const QuizQuestion = ({
           <div className="mt-12">
             <QuestionOptions
               questionId={question.id}
-              options={safeParseJson(question.options) || []}
+              options={question.options || []}
               onChangeAnswer={onChangeAnswer}
               storedOptionIds={storedAnswer}
             />

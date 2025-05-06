@@ -2,7 +2,7 @@ export interface IQuestion {
   id: string;
   content: string;
   correctAnswer?: string;
-  options?: string;
+  options?: IQuestionOption[];
   quizId: string;
 }
 

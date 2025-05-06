@@ -15,9 +15,9 @@ import { useStoredAnswers } from '@/hooks/useStoredAnswers';
 export const Quiz = () => {
   const params = useParams();
   const quizId = params.quizId as string | undefined;
-  const { data: quiz, isLoading, isError } = useQuiz(quizId || '');
+  const { data: quiz, isLoading, isError } = useQuiz(quizId);
 
-  const { answers, updateAnswers } = useStoredAnswers();
+  const { answers, updateAnswers } = useStoredAnswers(quizId);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   if (!quizId || isLoading) return <Loader />;
