@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
+import { QuizCreate } from '@/components/quiz/QuizCreate';
 import { QuizList } from '@/components/quiz/QuizList';
 import { QuizSearch } from '@/components/quiz/QuizSearch';
 import { QuizSelect } from '@/components/quiz/QuizSelect';
@@ -25,13 +26,20 @@ export const Quizzes = () => {
     <section className="flex min-h-screen justify-center bg-gray-50">
       <section className="flex w-4/5 flex-col items-center md:w-1/2">
         <h1 className="my-4 text-7xl text-primary">Quizzes</h1>
-        <div className="mb-4 flex w-full justify-between gap-8">
-          <QuizSearch
-            quizzes={quizzes}
-            setFilteredQuizzes={setFilteredQuizzes}
-          />
-          <QuizSelect setSortType={setSortType} />
+        <div className="mb-4 grid w-full gap-4 md:grid-cols-[6fr_3fr_1fr]">
+          <div className="md:col-span-1">
+            <QuizSearch
+              quizzes={quizzes}
+              setFilteredQuizzes={setFilteredQuizzes}
+            />
+          </div>
+
+          <div className="grid grid-cols-[2fr_1fr] gap-4 md:col-span-2">
+            <QuizSelect setSortType={setSortType} />
+            <QuizCreate />
+          </div>
         </div>
+
         <QuizList quizzes={filteredQuizzes} sortType={sortType} />
       </section>
     </section>

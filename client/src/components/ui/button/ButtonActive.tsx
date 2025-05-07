@@ -12,15 +12,10 @@ export const ButtonActive = ({
   return (
     <button
       className={clsx(
-        'text-white border border-primary bg-primary px-6 py-3',
+        'border border-primary bg-primary text-white',
+        !disabled && 'shadow-sm shadow-primary ...',
+        disabled && 'cursor-not-allowed ...',
         className,
-        {
-          'hover:bg-white shadow-sm shadow-primary transition-colors hover:text-primary':
-            !disabled,
-        },
-        {
-          'cursor-not-allowed opacity-50': disabled,
-        },
       )}
       disabled={disabled}
       {...rest}

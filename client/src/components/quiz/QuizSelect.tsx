@@ -15,7 +15,7 @@ export const QuizSelect = ({ setSortType }: TQuizSelectProps) => {
       />
       <select
         id="quizSelect"
-        className="rounded-lg border border-gray-300 p-2 pl-10"
+        className="w-full rounded-lg border border-gray-300 p-2 pl-10"
         onChange={e => setSortType(e.target.value as TQuizSortType)}
       >
         <option value="title">Title</option>
