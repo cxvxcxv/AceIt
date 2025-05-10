@@ -54,16 +54,16 @@ export const Results = () => {
       <div className="mt-16 flex w-full justify-between gap-16 text-center">
         <LinkActive
           href="/quizzes"
-          className="flex flex-1 items-center justify-center gap-2"
           title="Back to Quizzes"
+          className="flex flex-1 items-center justify-center gap-2 px-6 py-3"
         >
           <ArrowLeft strokeWidth={1.5} className="min-h-6 min-w-6" />
           <span className="hidden md:block">Back to Quizzes</span>
         </LinkActive>
         <ButtonActive
-          className="flex flex-1 items-center justify-center gap-2"
           onClick={handleTryAgain}
           title="Try Again"
+          className="flex flex-1 items-center justify-center gap-2 px-6 py-3"
         >
           <RefreshCw strokeWidth={1.5} className="min-h-6 min-w-6" />
           <span className="hidden md:block">Try Again</span>

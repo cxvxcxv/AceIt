@@ -30,7 +30,7 @@ export const QuizService = {
   async create(data: TQuizInput) {
     try {
       const response = await axiosAuth.post<IQuiz>(
-        `${SERVER_ENDPOINTS.QUIZZES.NEW}`,
+        `${SERVER_ENDPOINTS.QUIZZES.BASE}`,
         data,
       );
       return response.data;

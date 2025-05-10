@@ -3,14 +3,13 @@
 import { Eye, EyeClosed } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import { ButtonActive } from '@/components/ui/button/ButtonActive';
 import { Field } from '@/components/ui/input/Field';
 
-import { SERVER_ENDPOINTS } from '@/constants/server-endpoint.constants';
 import {
   PASSWORD_MIN_LENGTH,
   USERNAME_MAX_LENGTH,
@@ -20,6 +19,8 @@ import {
 import { TAuthInput, TAuthMethod } from '@/types/auth.types';
 
 import studentIcon from '@/assets/student.png';
+
+import { PAGES } from '@/config/urls.config';
 
 import { useAuthMutation } from '@/hooks/useAuthMutation';
 
@@ -37,16 +38,7 @@ export const Auth = () => {
 
   const { replace } = useRouter();
 
-  const onSuccess = () => {
-    toast.success(
-      authMethod === 'login'
-        ? 'Logged in successfully'
-        : 'Registered successfully',
-    );
-    replace(SERVER_ENDPOINTS.QUIZZES.BASE);
-  };
-
-  const { mutate, error } = useAuthMutation(authMethod, onSuccess);
+  const { mutate, isSuccess, error } = useAuthMutation(authMethod);
 
   const onSubmit: SubmitHandler<TAuthInput> = data => {
     mutate(data);
@@ -60,6 +52,17 @@ export const Auth = () => {
     e.preventDefault();
     setIsPasswordVisible(prev => !prev);
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(
+        authMethod === 'login'
+          ? 'Logged in successfully'
+          : 'Registered successfully',
+      );
+      replace(PAGES.QUIZZES);
+    }
+  }, [isSuccess]);
 
   return (
     <section className="flex justify-center">
@@ -122,7 +125,7 @@ export const Auth = () => {
               (errors.password && errors.password.message) ||
               (error && getErrorMessage(error))}
           </p>
-          <ButtonActive className="w-2/3">
+          <ButtonActive className="w-2/3 px-6 py-3">
             {authMethod === 'login' ? 'Login' : 'Register'}
           </ButtonActive>
           <div className="mt-4 flex gap-1">

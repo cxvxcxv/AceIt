@@ -45,7 +45,7 @@ export const Quiz = () => {
             <ButtonActive
               onClick={() => setCurrentIndex(Math.max(0, currentIndex - 1))}
               disabled={currentIndex === 0}
-              className="w-full flex-1 select-none"
+              className="w-full flex-1 select-none px-6 py-3"
             >
               Previous
             </ButtonActive>
@@ -63,7 +63,7 @@ export const Quiz = () => {
                 setCurrentIndex(Math.min(currentIndex + 1, totalQuestions - 1))
               }
               disabled={currentIndex === totalQuestions - 1}
-              className="w-full flex-1 select-none"
+              className="w-full flex-1 select-none px-6 py-3"
             >
               Next
             </ButtonActive>

@@ -13,8 +13,13 @@ export const ButtonActive = ({
     <button
       className={clsx(
         'border border-primary bg-primary text-white',
-        !disabled && 'shadow-sm shadow-primary ...',
-        disabled && 'cursor-not-allowed ...',
+        {
+          'shadow-sm shadow-primary transition-colors hover:bg-white hover:text-primary':
+            !disabled,
+        },
+        {
+          'cursor-not-allowed opacity-50': disabled,
+        },
         className,
       )}
       disabled={disabled}
