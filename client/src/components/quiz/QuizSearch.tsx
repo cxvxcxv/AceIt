@@ -7,18 +7,20 @@ import { filterQuizzes } from '@/utils/filterQuizzes';
 
 type TQuizSearchProps = {
   setFilteredQuizzes: (quizzes: IQuiz[]) => void;
+  userId?: string;
   quizzes?: IQuiz[];
 };
 
 export const QuizSearch = ({
+  userId,
   quizzes,
   setFilteredQuizzes,
 }: TQuizSearchProps) => {
   const [searchValue, setSearchValue] = useState('');
 
   useEffect(() => {
-    setFilteredQuizzes(filterQuizzes(searchValue, quizzes));
-  }, [searchValue]);
+    userId && setFilteredQuizzes(filterQuizzes(userId, searchValue, quizzes));
+  }, [searchValue, userId, quizzes]);
 
   return (
     <div className="group relative flex-grow">

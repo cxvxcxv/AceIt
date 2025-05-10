@@ -9,18 +9,22 @@ import { QuizSelect } from '@/components/quiz/QuizSelect';
 
 import { IQuiz, TQuizSortType } from '@/types/quiz.types';
 
+import { useProfile } from '@/hooks/useProfile';
 import { useQuizzes } from '@/hooks/useQuizzes';
+
+import { filterQuizzes } from '@/utils/filterQuizzes';
 
 export const Quizzes = () => {
   const { data: quizzes } = useQuizzes();
+  const { data: user } = useProfile();
   const [filteredQuizzes, setFilteredQuizzes] = useState<IQuiz[]>(
     [] as IQuiz[],
   );
   const [sortType, setSortType] = useState<TQuizSortType>('title');
 
   useEffect(() => {
-    quizzes && setFilteredQuizzes(quizzes);
-  }, [quizzes]);
+    quizzes && user && setFilteredQuizzes(filterQuizzes(user.id, '', quizzes));
+  }, [quizzes, user]);
 
   return (
     <section className="flex min-h-screen justify-center bg-gray-50">
@@ -29,6 +33,7 @@ export const Quizzes = () => {
         <div className="mb-4 grid w-full gap-4 md:grid-cols-[6fr_3fr_1fr]">
           <div className="md:col-span-1">
             <QuizSearch
+              userId={user?.id}
               quizzes={quizzes}
               setFilteredQuizzes={setFilteredQuizzes}
             />

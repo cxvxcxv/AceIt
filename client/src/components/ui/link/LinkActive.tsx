@@ -17,7 +17,7 @@ export const LinkActive = ({
       href={href}
       passHref
       className={clsx(
-        'border border-primary bg-primary px-6 py-3 text-center text-white shadow-sm shadow-primary transition-colors hover:bg-white hover:text-primary',
+        'block border border-primary bg-primary px-6 py-3 text-center text-white shadow-sm shadow-primary transition-colors hover:bg-white hover:text-primary',
         className,
       )}
       {...rest}

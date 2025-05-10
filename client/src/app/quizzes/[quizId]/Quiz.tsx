@@ -2,7 +2,7 @@
 
 import clsx from 'clsx';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { Loader } from '@/components/Loader';
@@ -16,12 +16,14 @@ export const Quiz = () => {
   const params = useParams();
   const quizId = params.quizId as string | undefined;
   const { data: quiz, isLoading, isError } = useQuiz(quizId);
+  const router = useRouter();
 
   const { answers, updateAnswers } = useStoredAnswers(quizId);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   if (!quizId || isLoading) return <Loader />;
   if (isError || !quiz) return <h1>Failed to load quiz.</h1>;
+  if (!quiz.questions.length) return router.push('/');
 
   const totalQuestions = quiz.questions.length;
 

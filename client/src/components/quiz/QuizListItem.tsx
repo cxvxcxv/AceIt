@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { Play, Settings } from 'lucide-react';
 import Link from 'next/link';
 
@@ -13,7 +14,14 @@ const QuizCard = ({ quiz }: { quiz: Omit<IQuiz, 'questions'> }) => {
     <div className="relative">
       <Link
         href={`${PAGES.QUIZZES}/${quiz.id}`}
-        className="group my-4 flex items-center justify-between rounded-lg border border-gray-300 bg-white p-4 transition-colors hover:border-primary"
+        onClick={e => !quiz._count.questions && e.preventDefault()}
+        className={clsx(
+          'group my-4 flex items-center justify-between rounded-lg border border-gray-300 bg-white p-4 transition-colors',
+          {
+            'hover:border-primary': quiz._count.questions,
+            'opacity-70 hover:cursor-not-allowed': !quiz._count.questions,
+          },
+        )}
       >
         <div>
           <h3 className="text-lg font-medium">
@@ -32,7 +40,14 @@ const QuizCard = ({ quiz }: { quiz: Omit<IQuiz, 'questions'> }) => {
             {new Date(quiz.updatedAt).toLocaleDateString()}
           </p>
         </div>
-        <Play className="min-h-6 min-w-6 transition-colors group-hover:text-primary" />
+        <Play
+          className={clsx(
+            'min-h-6 min-w-6 transition-colors group-hover:text-primary',
+            {
+              hidden: !quiz._count.questions,
+            },
+          )}
+        />
       </Link>
       {quiz.userId === data?.id ? (
         <Link
