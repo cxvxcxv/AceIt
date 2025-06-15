@@ -6,6 +6,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  IsUUID,
   MaxLength,
   ValidateNested,
 } from 'class-validator';
@@ -19,6 +20,10 @@ import { IsCorrectAnswerOrOptions } from '../validators/is-correct-answer-or-opt
 import { QuestionOptionDto } from './question-option.dto';
 
 export class QuestionDto {
+  @IsOptional()
+  @IsUUID()
+  id?: string;
+
   @IsString()
   @IsNotEmpty()
   @MaxLength(QUESTION_CONTENT_MAX_LENGTH)

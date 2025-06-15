@@ -1,16 +1,24 @@
 import {
   ForbiddenException,
+  forwardRef,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { QuestionService } from 'src/question/question.service';
+import { safeParseJson } from 'src/utils/safeParseJson';
 import { CreateQuizDto } from './dto/create-quiz.dto';
 import { UpdateQuizDto } from './dto/update-quiz.dto';
 
 @Injectable()
 export class QuizService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    @Inject(forwardRef(() => QuestionService))
+    private readonly questionService: QuestionService,
+  ) {}
 
   async findAll(userId: string) {
     return await this.prismaService.quiz.findMany({
@@ -32,7 +40,16 @@ export class QuizService {
 
     if (!quiz.isPublic && quiz.userId !== userId)
       throw new ForbiddenException('no access');
-    return quiz;
+
+    const formattedQuiz = {
+      ...quiz,
+      questions: quiz.questions.map((question) => ({
+        ...question,
+        options: safeParseJson(question.options.toString()),
+      })),
+    };
+
+    return formattedQuiz;
   }
 
   async create(userId: string, createQuizDto: CreateQuizDto) {
@@ -47,12 +64,24 @@ export class QuizService {
 
   async update(userId: string, quizId: string, updateQuizDto: UpdateQuizDto) {
     const quiz = await this.validateQuizExistence(quizId);
-    if (quiz.userId !== userId) throw new ForbiddenException('no access');
+    if (quiz.userId !== userId) throw new ForbiddenException('No access');
 
-    return await this.prismaService.quiz.update({
+    const { title, isPublic, questions } = updateQuizDto;
+
+    await this.prismaService.quiz.update({
       where: { id: quizId },
-      data: updateQuizDto,
+      data: { title, isPublic },
     });
+
+    if (questions) {
+      await this.questionService.deleteAllFromQuiz(userId, quizId);
+
+      for (const questionDto of questions) {
+        await this.questionService.create(userId, quizId, questionDto);
+      }
+    }
+
+    return quiz;
   }
 
   async delete(userId: string, quizId: string) {

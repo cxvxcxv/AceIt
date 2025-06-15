@@ -1,11 +1,14 @@
 import {
   ForbiddenException,
+  forwardRef,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { QuizService } from 'src/quiz/quiz.service';
+import { safeParseJson } from 'src/utils/safeParseJson';
 import { v4 as uuidv4 } from 'uuid';
 import { QuestionDto } from './dto/question.dto';
 
@@ -13,6 +16,7 @@ import { QuestionDto } from './dto/question.dto';
 export class QuestionService {
   constructor(
     private readonly prismaService: PrismaService,
+    @Inject(forwardRef(() => QuizService))
     private readonly quizService: QuizService,
   ) {}
 
@@ -71,6 +75,13 @@ export class QuestionService {
     });
   }
 
+  async deleteAllFromQuiz(userId: string, quizId: string) {
+    const quiz = await this.quizService.validateQuizExistence(quizId);
+    if (quiz.userId !== userId) throw new ForbiddenException('no access');
+
+    return await this.prismaService.question.deleteMany({ where: { quizId } });
+  }
+
   private async validateQuestionExistence(questionId: string) {
     const question = await this.prismaService.question.findUnique({
       where: { id: questionId },
@@ -78,6 +89,11 @@ export class QuestionService {
 
     if (!question) throw new NotFoundException('question not found');
 
-    return question;
+    const formattedQuestion = {
+      ...question,
+      options: safeParseJson(question.options.toString()),
+    };
+
+    return formattedQuestion;
   }
 }
