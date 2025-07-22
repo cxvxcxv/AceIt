@@ -6,9 +6,9 @@ import { useEffect } from 'react';
 
 import { Loader } from '@/components/Loader';
 import { ScoreProgress } from '@/components/ScoreProgress';
-import { ButtonActive } from '@/components/ui/button/ButtonActive';
+import { ActiveButton } from '@/components/ui/button/ActiveButton';
 import { TransparentGlass } from '@/components/ui/div/TransparentGlass';
-import { LinkActive } from '@/components/ui/link/LinkActive';
+import { ActiveLink } from '@/components/ui/link/ActiveLink';
 
 import { useQuiz } from '@/hooks/useQuiz';
 import { useStoredAnswers } from '@/hooks/useStoredAnswers';
@@ -52,22 +52,22 @@ export const Results = () => {
         </h1>
       </TransparentGlass>
       <div className="mt-16 flex w-full justify-between gap-16 text-center">
-        <LinkActive
+        <ActiveLink
           href="/quizzes"
           title="Back to Quizzes"
           className="flex flex-1 items-center justify-center gap-2 px-6 py-3"
         >
           <ArrowLeft strokeWidth={1.5} className="min-h-6 min-w-6" />
           <span className="hidden md:block">Back to Quizzes</span>
-        </LinkActive>
-        <ButtonActive
+        </ActiveLink>
+        <ActiveButton
           onClick={handleTryAgain}
           title="Try Again"
           className="flex flex-1 items-center justify-center gap-2 px-6 py-3"
         >
           <RefreshCw strokeWidth={1.5} className="min-h-6 min-w-6" />
           <span className="hidden md:block">Try Again</span>
-        </ButtonActive>
+        </ActiveButton>
       </div>
     </section>
   );

@@ -1,0 +1,3 @@
+const OPTION_TEXT_MAX_LENGTH = 50;
+
+export { OPTION_TEXT_MAX_LENGTH };

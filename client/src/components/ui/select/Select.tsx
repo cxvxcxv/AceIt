@@ -7,6 +7,7 @@ import { SelectHTMLAttributes } from 'react';
 type TSelectProps = {
   icon: LucideIcon;
   id: string;
+  wrapperClassname?: string;
 } & SelectHTMLAttributes<HTMLSelectElement>;
 
 export const Select = ({
@@ -14,10 +15,11 @@ export const Select = ({
   children,
   id,
   className,
+  wrapperClassname,
   ...rest
 }: TSelectProps) => {
   return (
-    <div className="group relative">
+    <div className={clsx('group relative', wrapperClassname)}>
       <Icon
         strokeWidth={1.75}
         className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 leading-none transition-colors group-focus-within:text-primary"

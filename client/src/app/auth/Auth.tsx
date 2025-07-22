@@ -7,8 +7,8 @@ import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import { ButtonActive } from '@/components/ui/button/ButtonActive';
-import { Field } from '@/components/ui/input/Field';
+import { ActiveButton } from '@/components/ui/button/ActiveButton';
+import { FloatingLabelInput } from '@/components/ui/input/FloatingLabelInput';
 
 import {
   PASSWORD_MIN_LENGTH,
@@ -76,11 +76,12 @@ export const Auth = () => {
           className="flex w-full flex-col items-center"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <Field
+          <FloatingLabelInput
             className="w-full"
             inputClassname="border-b-0"
             id="username"
             label="username"
+            maxLength={USERNAME_MAX_LENGTH}
             {...register('username', {
               required: 'Username must not be empty',
               minLength: {
@@ -94,7 +95,7 @@ export const Auth = () => {
             })}
           />
           <div className="relative w-full">
-            <Field
+            <FloatingLabelInput
               className="w-full"
               inputClassname="pr-16"
               type={isPasswordVisible ? 'text' : 'password'}
@@ -125,9 +126,9 @@ export const Auth = () => {
               (errors.password && errors.password.message) ||
               (error && getErrorMessage(error))}
           </p>
-          <ButtonActive className="w-2/3 px-6 py-3">
+          <ActiveButton className="w-2/3 px-6 py-3">
             {authMethod === 'login' ? 'Login' : 'Register'}
-          </ButtonActive>
+          </ActiveButton>
           <div className="mt-4 flex gap-1">
             <p className="font-light">
               {authMethod === 'login' ? 'New here?' : 'Already registered?'}

@@ -12,8 +12,15 @@ export interface IQuestionOption {
   isCorrect: boolean;
 }
 
+export type TQuestionOptionInput = {
+  id: string;
+  optionText: string;
+  isCorrect: boolean;
+};
+
 export type TQuestionInput = {
+  id: string;
   content: string;
   correctAnswer?: string;
-  options: IQuestionOption[];
+  options: TQuestionOptionInput[];
 };

@@ -3,7 +3,7 @@
 import clsx from 'clsx';
 import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 
-export const ButtonInactive = ({
+export const InactiveButton = ({
   children,
   className,
   disabled,

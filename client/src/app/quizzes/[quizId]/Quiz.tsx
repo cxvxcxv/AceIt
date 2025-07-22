@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 import { Loader } from '@/components/Loader';
 import { QuizQuestion } from '@/components/question/QuizQuestion';
-import { ButtonActive } from '@/components/ui/button/ButtonActive';
+import { ActiveButton } from '@/components/ui/button/ActiveButton';
 
 import { useQuiz } from '@/hooks/useQuiz';
 import { useStoredAnswers } from '@/hooks/useStoredAnswers';
@@ -50,13 +50,13 @@ export const Quiz = () => {
       <div className="absolute bottom-0 left-0 right-0 flex justify-center">
         <div className="w-full max-w-3xl p-8">
           <nav className="mt-12 flex items-center justify-between gap-8">
-            <ButtonActive
+            <ActiveButton
               onClick={() => setCurrentIndex(Math.max(0, currentIndex - 1))}
               disabled={currentIndex === 0}
               className="w-full flex-1 select-none px-6 py-3"
             >
               Previous
-            </ButtonActive>
+            </ActiveButton>
             <Link
               href={`/quizzes/${quizId}/results`}
               className={clsx('flex-1 text-center transition', {
@@ -66,7 +66,7 @@ export const Quiz = () => {
             >
               Finish Quiz
             </Link>
-            <ButtonActive
+            <ActiveButton
               onClick={() =>
                 setCurrentIndex(Math.min(currentIndex + 1, totalQuestions - 1))
               }
@@ -74,7 +74,7 @@ export const Quiz = () => {
               className="w-full flex-1 select-none px-6 py-3"
             >
               Next
-            </ButtonActive>
+            </ActiveButton>
           </nav>
         </div>
       </div>

@@ -14,8 +14,8 @@ import { TQuizInput } from '@/types/quiz.types';
 import { useCreateQuizMutation } from '@/hooks/useCreateQuizMutation';
 
 import { Dialog } from '../ui/Dialog';
-import { ButtonActive } from '../ui/button/ButtonActive';
-import { Field } from '../ui/input/Field';
+import { ActiveButton } from '../ui/button/ActiveButton';
+import { FloatingLabelInput } from '../ui/input/FloatingLabelInput';
 import { Select } from '../ui/select/Select';
 
 export const QuizCreate = () => {
@@ -55,17 +55,17 @@ export const QuizCreate = () => {
 
   return (
     <div>
-      <ButtonActive
+      <ActiveButton
         onClick={() => setIsOpen(true)}
         className="flex items-center justify-center gap-2 rounded-md px-2 py-2"
       >
         <Plus />
         Create
-      </ButtonActive>
+      </ActiveButton>
       <Dialog isOpen={isOpen} onClose={() => setIsOpen(false)} className="">
         <form id="create-quiz" onSubmit={handleSubmit(onSubmit)}>
           <h1 className="text-center text-primary">Create Quiz</h1>
-          <Field
+          <FloatingLabelInput
             id="title"
             label="title"
             className="mt-4"
@@ -91,13 +91,13 @@ export const QuizCreate = () => {
             {...register('isPublic')}
           >
             <option value="true" defaultChecked>
-              public
+              Public
             </option>
-            <option value="false">private</option>
+            <option value="false">Private</option>
           </Select>
-          <ButtonActive className="mt-6 w-full rounded-xl py-1">
+          <ActiveButton className="mt-6 w-full rounded-xl py-1">
             Create
-          </ButtonActive>
+          </ActiveButton>
         </form>
       </Dialog>
     </div>

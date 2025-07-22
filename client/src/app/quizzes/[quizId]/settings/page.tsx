@@ -10,5 +10,9 @@ export const metadata: Metadata = {
 };
 
 export default function QuizSettingsPage() {
-  return <QuizSettings />;
+  return (
+    <section className="flex-w flex flex-col items-center p-2">
+      <QuizSettings />
+    </section>
+  );
 }

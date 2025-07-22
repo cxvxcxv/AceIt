@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { AnchorHTMLAttributes, PropsWithChildren } from 'react';
 
-export const LinkActive = ({
+export const ActiveLink = ({
   children,
   className,
   href,
